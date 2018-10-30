@@ -16,6 +16,7 @@
 
 plugins {
     id 'java-library'
+    id 'maven-publish'
     id 'idea'
     id 'com.jfrog.bintray' version '1.8.4'
 }
@@ -33,17 +34,6 @@ javadoc {
     options.author()
     options.encoding = 'UTF-8'
     options.addStringOption('-html5')
-}
-
-publishing {
-    publications {
-        MavenProject(MavenPublication) {
-            from components.java
-            groupId group
-            artifactId archivesBaseName
-            version = version
-        }
-    }
 }
 
 jar {
@@ -68,13 +58,14 @@ bintray {
         repo = 'maven'
         name = 'loadingbar'
         licenses = ['Apache-2.0']
+        publications = ['BintrayUpload']
         vcsUrl = 'https://github.com/duncte123/loadingBar.git'
     }
 }
 
 publishing {
     publications {
-        MyPublication(MavenPublication) {
+        BintrayUpload(MavenPublication) {
             from components.java
             groupId group
             artifactId archivesBaseName
