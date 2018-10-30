@@ -17,12 +17,12 @@
 plugins {
     id 'java-library'
     id 'idea'
-    id 'maven-publish'
+    id 'com.jfrog.bintray' version '1.8.4'
 }
 
-group = "me.duncte123"
-archivesBaseName = "loadingbar"
-version = "1.0.0"
+group = 'me.duncte123'
+archivesBaseName = 'loadingbar'
+version = '1.0.0'
 
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
@@ -47,7 +47,7 @@ publishing {
 }
 
 jar {
-    classifier = "jar"
+    classifier = 'jar'
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
@@ -61,11 +61,26 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
     from javadoc.destinationDir
 }
 
+bintray {
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_KEY')
+    pkg {
+        repo = 'maven'
+        name = 'loadingbar'
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/duncte123/loadingBar.git'
+    }
+}
+
 publishing {
-    repositories {
-        maven {
-            // change to point to your repo, e.g. http://my.org/repo
-            url "$buildDir/repo"
+    publications {
+        MyPublication(MavenPublication) {
+            from components.java
+            groupId group
+            artifactId archivesBaseName
+            version version
+            artifact javadocJar
+            artifact sourcesJar
         }
     }
 }
@@ -82,4 +97,11 @@ build {
     javadocJar.mustRunAfter jar
     sourcesJar.mustRunAfter javadocJar
     publish.mustRunAfter sourcesJar
+}
+
+bintrayUpload {
+    dependsOn build
+
+    onlyIf { System.getenv('BINTRAY_USER') != null }
+    onlyIf { System.getenv('BINTRAY_KEY') != null }
 }
