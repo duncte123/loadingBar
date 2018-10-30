@@ -20,6 +20,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
@@ -71,7 +72,7 @@ public class LoadingBar {
         graphics.setPaint(new Color(0x737E8D));
         graphics.fillRect(innerX, innerY, maxInnerW, maxInnerH);
 
-        int greenFill = (int)(maxInnerW - percentage);
+        int greenFill = (int) ( ( maxInnerW / 100.0 ) * percentage );
 
         // Fill the bar
         graphics.setPaint(new Color(0x42B481));
@@ -85,13 +86,15 @@ public class LoadingBar {
 
     /*public static void main(String[] args) {
 
-        double percentage = getPercentage();
+        LoadingBar bar = new LoadingBar();
+
+        double percentage = bar.getPercentage();
         int year = Calendar.getInstance().getWeekYear();
 
         System.out.printf("%s is %s%% complete.", year, percentage);
 
-        try (FileOutputStream outputStream = new FileOutputStream("loadingBar.png")) {
-            outputStream.write(generateImage(percentage));
+        try (FileOutputStream outputStream = new FileOutputStream("loadingBarExample.png")) {
+            outputStream.write(bar.generateImage(69.69));
         } catch (IOException e) {
             e.printStackTrace();
         }
