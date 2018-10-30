@@ -55,4 +55,5 @@ try (FileOutputStream outputStream = new FileOutputStream("loadingBarExample.png
 ```
 
 The following code should generate this output:
+
 ![The result](https://raw.githubusercontent.com/duncte123/loadingBar/master/loadingBarExample.png)
