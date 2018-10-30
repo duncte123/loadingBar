@@ -23,7 +23,7 @@ plugins {
 
 group = 'me.duncte123'
 archivesBaseName = 'loadingbar'
-version = '1.0.0'
+version = "1.0.0_${getGitHash()}"
 
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
@@ -60,6 +60,11 @@ bintray {
         licenses = ['Apache-2.0']
         publications = ['BintrayUpload']
         vcsUrl = 'https://github.com/duncte123/loadingBar.git'
+        publish = true
+        version {
+            name = project.version
+            released = new Date()
+        }
     }
 }
 
@@ -95,4 +100,13 @@ bintrayUpload {
 
     onlyIf { System.getenv('BINTRAY_USER') != null }
     onlyIf { System.getenv('BINTRAY_KEY') != null }
+}
+
+def getGitHash() {
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'rev-parse', '--short', 'HEAD'
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
 }
