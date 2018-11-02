@@ -16,7 +16,7 @@ repositories {
 }
 
 dependencies {
-    compile group: 'me.duncte123', name: 'loadingbar', version: '[VERSION]'
+    implementation group: 'me.duncte123', name: 'loadingbar', version: '[VERSION]'
 }
 ```
 
