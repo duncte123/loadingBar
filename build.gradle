@@ -26,7 +26,7 @@ plugins {
 
 group = 'me.duncte123'
 archivesBaseName = 'loadingbar'
-version = "1.0.1_${getGitHash()}"
+version = "1.1.0_${getBuildNumber()}"
 
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
@@ -99,6 +99,10 @@ bintrayUpload {
 
     onlyIf { System.getenv('BINTRAY_USER') != null }
     onlyIf { System.getenv('BINTRAY_KEY') != null }
+}
+
+def getBuildNumber() {
+    return System.getenv('TRAVIS_BUILD_NUMBER') ?: System.getenv("TRAVIS_COMMIT") ?: getGitHash()
 }
 
 def getGitHash() {

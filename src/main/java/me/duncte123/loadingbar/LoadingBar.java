@@ -20,7 +20,6 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
@@ -28,8 +27,9 @@ import java.util.Date;
 public class LoadingBar {
 
     /**
-     * Returns a percentage
-     * @return a percentage
+     * Returns the percentage of how much has passed from this year
+     *
+     * @return The percentage of how much has passed from this year
      */
     public double getPercentage() {
         long now = new Date().getTime();
@@ -42,40 +42,62 @@ public class LoadingBar {
         endCalendar.set(startCalendar.get(Calendar.YEAR) + 1, Calendar.JANUARY, 1, 0, 0, 0);
         long yearEnd = endCalendar.getTime().getTime();
 
-        return 100.0 * ( now - yearStart ) / ( yearEnd - yearStart );
+        return 100.0 * (now - yearStart) / (yearEnd - yearStart);
     }
 
     /**
-     * Generates an image
-     * @param percentage a percentage
-     * @return some bytes
-     * @throws IOException when things break
+     * Generates the progress bar
+     *
+     * @param percentage
+     *         a percentage
+     *
+     * @return The image in a byte array
+     *
+     * @throws IOException
+     *         when things break
      */
     public byte[] generateImage(double percentage) throws IOException {
-        int width = 360;
-        int height = 40;
+        return generateImage(percentage, LoadingBarConfig.defaultConfig());
+    }
+
+    /**
+     * Generates the progress bar
+     *
+     * @param percentage
+     *         a percentage
+     * @param config
+     *         The configuration for this bar
+     *
+     * @return The image in a byte array
+     *
+     * @throws IOException
+     *         when things break
+     */
+    public byte[] generateImage(double percentage, LoadingBarConfig config) throws IOException {
+        int width = config.getWidth();
+        int height = config.getHeight();
         int type = BufferedImage.TYPE_INT_RGB;
 
         BufferedImage image = new BufferedImage(width, height, type);
         Graphics2D graphics = image.createGraphics();
 
         // Fill the background
-        graphics.setPaint(Color.BLACK);
+        graphics.setPaint(config.getBorderColor());
         graphics.fillRect(0, 0, image.getWidth(), image.getHeight());
 
-        int innerX = 4;
-        int innerY = 4;
+        int innerX = config.getBorderWidth();
+        int innerY = config.getBorderWidth();
         int maxInnerW = image.getWidth() - (innerX * 2);
         int maxInnerH = image.getHeight() - (innerY * 2);
 
         // Fill the gray area
-        graphics.setPaint(new Color(0x737E8D));
+        graphics.setPaint(config.getInnerColor());
         graphics.fillRect(innerX, innerY, maxInnerW, maxInnerH);
 
-        int greenFill = (int) ( ( maxInnerW / 100.0 ) * percentage );
+        int greenFill = (int) ((maxInnerW / 100.0) * percentage);
 
         // Fill the bar
-        graphics.setPaint(new Color(0x42B481));
+        graphics.setPaint(config.getFillColor());
         graphics.fillRect(innerX, innerY, greenFill, maxInnerH);
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
