@@ -26,7 +26,7 @@ plugins {
 
 group = 'me.duncte123'
 archivesBaseName = 'loadingbar'
-version = "1.1.0_${getBuildNumber()}"
+version = "1.2.0_${getBuildNumber()}"
 
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11

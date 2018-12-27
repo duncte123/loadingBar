@@ -26,12 +26,15 @@ import java.util.Date;
 
 public class LoadingBar {
 
+    private LoadingBar() {
+    }
+
     /**
      * Returns the percentage of how much has passed from this year
      *
      * @return The percentage of how much has passed from this year
      */
-    public double getPercentage() {
+    public static double getPercentage() {
         long now = new Date().getTime();
 
         Calendar startCalendar = Calendar.getInstance();
@@ -56,7 +59,7 @@ public class LoadingBar {
      * @throws IOException
      *         when things break
      */
-    public byte[] generateImage(double percentage) throws IOException {
+    public static byte[] generateImage(double percentage) throws IOException {
         return generateImage(percentage, LoadingBarConfig.defaultConfig());
     }
 
@@ -73,7 +76,7 @@ public class LoadingBar {
      * @throws IOException
      *         when things break
      */
-    public byte[] generateImage(double percentage, LoadingBarConfig config) throws IOException {
+    public static byte[] generateImage(double percentage, LoadingBarConfig config) throws IOException {
         int width = config.getWidth();
         int height = config.getHeight();
         int type = BufferedImage.TYPE_INT_RGB;
@@ -105,20 +108,4 @@ public class LoadingBar {
 
         return outputStream.toByteArray();
     }
-
-    /*public static void main(String[] args) {
-
-        LoadingBar bar = new LoadingBar();
-
-        double percentage = bar.getPercentage();
-        int year = Calendar.getInstance().getWeekYear();
-
-        System.out.printf("%s is %s%% complete.", year, percentage);
-
-        try (FileOutputStream outputStream = new FileOutputStream("loadingBarExample.png")) {
-            outputStream.write(bar.generateImage(69.69));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
 }

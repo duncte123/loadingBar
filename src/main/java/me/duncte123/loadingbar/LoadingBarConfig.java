@@ -56,48 +56,54 @@ public class LoadingBarConfig {
         return width;
     }
 
-    public void setWidth(int width) {
+    public LoadingBarConfig setWidth(int width) {
         this.width = width;
+        return this;
     }
 
     public int getHeight() {
         return height;
     }
 
-    public void setHeight(int height) {
+    public LoadingBarConfig setHeight(int height) {
         this.height = height;
+        return this;
     }
 
     public int getBorderWidth() {
         return borderWidth;
     }
 
-    public void setBorderWidth(int borderWidth) {
+    public LoadingBarConfig setBorderWidth(int borderWidth) {
         this.borderWidth = borderWidth;
+        return this;
     }
 
     public Color getBorderColor() {
         return borderColor;
     }
 
-    public void setBorderColor(Color borderColor) {
+    public LoadingBarConfig setBorderColor(Color borderColor) {
         this.borderColor = borderColor;
+        return this;
     }
 
     public Color getInnerColor() {
         return innerColor;
     }
 
-    public void setInnerColor(Color innerColor) {
+    public LoadingBarConfig setInnerColor(Color innerColor) {
         this.innerColor = innerColor;
+        return this;
     }
 
     public Color getFillColor() {
         return fillColor;
     }
 
-    public void setFillColor(Color fillColor) {
+    public LoadingBarConfig setFillColor(Color fillColor) {
         this.fillColor = fillColor;
+        return this;
     }
 
     /**
