@@ -65,6 +65,6 @@ try (FileOutputStream outputStream = new FileOutputStream("loadingBarExample-col
 }
 ```
 
-Witch will result in the following output:
+Which will result in the following output:
 
 ![The result](https://raw.githubusercontent.com/duncte123/loadingBar/master/loadingBarExample-color.png)
