@@ -28,8 +28,8 @@ group = 'me.duncte123'
 archivesBaseName = 'loadingbar'
 version = "1.2.0_${getBuildNumber()}"
 
-sourceCompatibility = JavaVersion.VERSION_11
-targetCompatibility = JavaVersion.VERSION_11
+sourceCompatibility = JavaVersion.VERSION_1_10
+targetCompatibility = JavaVersion.VERSION_1_10
 
 javadoc {
     failOnError = false
