@@ -1,5 +1,5 @@
 /*
- *    Copyright 2018 Duncan "duncte123" Sterken
+ *    Copyright 2018 - 2019 Duncan "duncte123" Sterken
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ public class LoadingBar {
         long yearStart = startCalendar.getTime().getTime();
 
         Calendar endCalendar = Calendar.getInstance();
-        endCalendar.set(startCalendar.get(Calendar.YEAR) + 1, Calendar.JANUARY, 1, 0, 0, 0);
+        endCalendar.set(startCalendar.get(Calendar.YEAR), Calendar.DECEMBER, 31, 0, 0, 0);
         long yearEnd = endCalendar.getTime().getTime();
 
         return 100.0 * (now - yearStart) / (yearEnd - yearStart);
