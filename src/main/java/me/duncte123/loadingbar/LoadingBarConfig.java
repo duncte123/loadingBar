@@ -48,7 +48,7 @@ public class LoadingBarConfig {
         this.width = width;
         this.height = height;
         this.borderWidth = borderWidth;
-        if (precision < 20)
+        if (precision >= 0 && precision < 20)
             this.precision = precision;
         else
             this.precision = 19;
@@ -89,7 +89,7 @@ public class LoadingBarConfig {
     }
     
     public LoadingBarConfig setPrecision(int precision) {
-        if (precision < 20)
+        if (precision >= 0 && precision < 20)
             this.precision = precision;
         else
             this.precision = 19;
