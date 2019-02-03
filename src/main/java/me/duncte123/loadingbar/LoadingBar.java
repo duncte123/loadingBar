@@ -35,6 +35,11 @@ public class LoadingBar {
      * @return The percentage of how much has passed from this year
      */
     public static double getPercentage() {
+        return getPercentage(19);
+    }
+    
+    public static double getPercentage(int precision) {
+        if (precision > 19 || precision < 0) precision = 19;
         long now = new Date().getTime();
 
         Calendar startCalendar = Calendar.getInstance();
@@ -45,7 +50,11 @@ public class LoadingBar {
         endCalendar.set(startCalendar.get(Calendar.YEAR), Calendar.DECEMBER, 31, 0, 0, 0);
         long yearEnd = endCalendar.getTime().getTime();
 
-        return 100.0 * (now - yearStart) / (yearEnd - yearStart);
+        double percentage = 100.0 * (now - yearStart) / (yearEnd - yearStart);
+        double factor = Math.pow(10.0, (double) precison);
+        long percents = (long) (percentage * factor);
+        percentage = ((double) percents) / factor;
+        return percentage;
     }
 
     /**
@@ -79,6 +88,9 @@ public class LoadingBar {
     public static byte[] generateImage(double percentage, LoadingBarConfig config) throws IOException {
         int width = config.getWidth();
         int height = config.getHeight();
+        double factor = Math.pow(10.0, (double) config.getPrecision());
+        long percents = (long) (percentage * factor);
+        percentage = ((double) percents) / factor; 
         int type = BufferedImage.TYPE_INT_RGB;
 
         BufferedImage image = new BufferedImage(width, height, type);
