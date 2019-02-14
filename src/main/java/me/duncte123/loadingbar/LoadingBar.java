@@ -39,9 +39,11 @@ public class LoadingBar {
     }
     
     public static double getPercentage(int precision) {
+        
         if (precision > 19 || precision < 2) {
             precision = 19;
         }
+        
         long now = new Date().getTime();
 
         Calendar startCalendar = Calendar.getInstance();
