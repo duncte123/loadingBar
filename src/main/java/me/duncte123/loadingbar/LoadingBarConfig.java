@@ -49,10 +49,10 @@ public class LoadingBarConfig {
         this.height = height;
         this.borderWidth = borderWidth;
         
-        if (precision >= 2 && precision < 20) {
+        if (precision >= 2 && precision < 18) {
             this.precision = precision;
         } else {
-            this.precision = 19;
+            this.precision = 17;
         }
         
         this.borderColor = borderColor;
@@ -93,10 +93,10 @@ public class LoadingBarConfig {
     
     public LoadingBarConfig setPrecision(int precision) {
         
-        if (precision >= 2 && precision < 20) {
+        if (precision >= 2 && precision < 18) {
             this.precision = precision;
         } else {
-            this.precision = 19;
+            this.precision = 17;
         }
         
         return this;

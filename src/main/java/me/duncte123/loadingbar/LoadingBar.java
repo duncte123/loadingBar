@@ -35,13 +35,13 @@ public class LoadingBar {
      * @return The percentage of how much has passed from this year
      */
     public static double getPercentage() {
-        return getPercentage(19);
+        return getPercentage(17);
     }
     
     public static double getPercentage(int precision) {
         
-        if (precision > 19 || precision < 2) {
-            precision = 19;
+        if (precision > 17 || precision < 2) {
+            precision = 17;
         }
         
         long now = new Date().getTime();
@@ -55,7 +55,7 @@ public class LoadingBar {
         long yearEnd = endCalendar.getTime().getTime();
 
         double percentage = 100.0 * (now - yearStart) / (yearEnd - yearStart);
-        double factor = Math.pow(10.0, (double) precison);
+        double factor = Math.pow(10.0, (double) precision);
         long percents = (long) (percentage * factor);
         percentage = ((double) percents) / factor;
         return percentage;
