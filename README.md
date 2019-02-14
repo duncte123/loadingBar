@@ -58,7 +58,8 @@ You can customize the colors using the `LoadingBarConfig` class like this:
 ```java
 LoadingBarConfig config = LoadingBarConfig.defaultConfig()
                             .setFillColor(Color.RED)
-                            .setBorderColor(Color.PINK);
+                            .setBorderColor(Color.PINK)
+                            .setPrecision(3);
 
 try (FileOutputStream outputStream = new FileOutputStream("loadingBarExample-color.png")) {
     outputStream.write(LoadingBar.generateImage(69.69, config));

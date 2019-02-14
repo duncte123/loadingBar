@@ -23,6 +23,7 @@ public class LoadingBarConfig {
     private int width;
     private int height;
     private int borderWidth;
+    private int precision;
     private Color borderColor;
     private Color innerColor;
     private Color fillColor;
@@ -43,10 +44,17 @@ public class LoadingBarConfig {
      * @param fillColor
      *         The color of the fill (green part)
      */
-    public LoadingBarConfig(int width, int height, int borderWidth, Color borderColor, Color innerColor, Color fillColor) {
+    public LoadingBarConfig(int width, int height, int borderWidth, int precision, Color borderColor, Color innerColor, Color fillColor) {
         this.width = width;
         this.height = height;
         this.borderWidth = borderWidth;
+        
+        if (precision >= 2 && precision < 18) {
+            this.precision = precision;
+        } else {
+            this.precision = 17;
+        }
+        
         this.borderColor = borderColor;
         this.innerColor = innerColor;
         this.fillColor = fillColor;
@@ -76,6 +84,21 @@ public class LoadingBarConfig {
 
     public LoadingBarConfig setBorderWidth(int borderWidth) {
         this.borderWidth = borderWidth;
+        return this;
+    }
+    
+    public int getPrecision() {
+        return precision;
+    }
+    
+    public LoadingBarConfig setPrecision(int precision) {
+        
+        if (precision >= 2 && precision < 18) {
+            this.precision = precision;
+        } else {
+            this.precision = 17;
+        }
+        
         return this;
     }
 
@@ -116,6 +139,7 @@ public class LoadingBarConfig {
                 360,
                 40,
                 4,
+                19,
                 Color.BLACK,
                 new Color(0x737E8D),
                 new Color(0x42B481)

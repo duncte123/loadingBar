@@ -27,7 +27,7 @@ import java.util.Calendar;
 public class Main {
 
     public static void main(String[] args) {
-        double percentage = LoadingBar.getPercentage();
+        double percentage = LoadingBar.getPercentage(5);
         int year = Calendar.getInstance().getWeekYear();
 
         System.out.printf("%s is %s%% complete.", year, percentage);
@@ -40,10 +40,11 @@ public class Main {
 
         LoadingBarConfig config = LoadingBarConfig.defaultConfig()
                 .setFillColor(Color.RED)
-                .setBorderColor(Color.PINK);
+                .setBorderColor(Color.PINK)
+                .setPrecision(3);
 
         try (FileOutputStream outputStream = new FileOutputStream("loadingBarExample-color.png")) {
-            outputStream.write(LoadingBar.generateImage(69.69, config));
+            outputStream.write(LoadingBar.generateImage(69.6954678795, config));
         } catch (IOException e) {
             e.printStackTrace();
         }
