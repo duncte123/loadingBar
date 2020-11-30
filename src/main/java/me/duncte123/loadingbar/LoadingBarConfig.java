@@ -27,6 +27,7 @@ public class LoadingBarConfig {
     private Color borderColor;
     private Color innerColor;
     private Color fillColor;
+    private boolean drawBorder;
 
     /**
      * Constructs a new config for the bar
@@ -43,21 +44,18 @@ public class LoadingBarConfig {
      *         The inner color of the bar (gray part)
      * @param fillColor
      *         The color of the fill (green part)
+     * @param drawBorder
+     *         {@code true} to draw a border with the border color around the image, {@code false} to disable
      */
-    public LoadingBarConfig(int width, int height, int borderWidth, int precision, Color borderColor, Color innerColor, Color fillColor) {
+    public LoadingBarConfig(int width, int height, int borderWidth, int precision, Color borderColor, Color innerColor, Color fillColor, boolean drawBorder) {
         this.width = width;
         this.height = height;
         this.borderWidth = borderWidth;
-        
-        if (precision >= 2 && precision < 18) {
-            this.precision = precision;
-        } else {
-            this.precision = 17;
-        }
-        
+        this.precision = parsePrecision(precision);
         this.borderColor = borderColor;
         this.innerColor = innerColor;
         this.fillColor = fillColor;
+        this.drawBorder = drawBorder;
     }
 
     public int getWidth() {
@@ -86,19 +84,14 @@ public class LoadingBarConfig {
         this.borderWidth = borderWidth;
         return this;
     }
-    
+
     public int getPrecision() {
         return precision;
     }
-    
+
     public LoadingBarConfig setPrecision(int precision) {
-        
-        if (precision >= 2 && precision < 18) {
-            this.precision = precision;
-        } else {
-            this.precision = 17;
-        }
-        
+        this.precision = parsePrecision(precision);
+
         return this;
     }
 
@@ -129,6 +122,23 @@ public class LoadingBarConfig {
         return this;
     }
 
+    public boolean isDrawBorder() {
+        return drawBorder;
+    }
+
+    public LoadingBarConfig setDrawBorder(boolean drawBorder) {
+        this.drawBorder = drawBorder;
+        return this;
+    }
+
+    public static int parsePrecision(int precision) {
+        if (precision > 17 || precision < 0) {
+           return 17;
+        }
+
+        return precision;
+    }
+
     /**
      * Returns the default config for the bar
      *
@@ -139,10 +149,11 @@ public class LoadingBarConfig {
                 360,
                 40,
                 4,
-                19,
+                17,
                 Color.BLACK,
                 new Color(0x737E8D),
-                new Color(0x42B481)
+                new Color(0x42B481),
+                true
         );
     }
 }

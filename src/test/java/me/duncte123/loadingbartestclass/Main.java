@@ -30,7 +30,25 @@ public class Main {
         double percentage = LoadingBar.getPercentage(5);
         int year = Calendar.getInstance().getWeekYear();
 
-        System.out.printf("%s is %s%% complete.", year, percentage);
+        System.out.printf("%s is %s%% complete.\n", year, percentage);
+
+        double testPercentage = 16.123456D;
+        final double makePrecise = LoadingBar.round(6, testPercentage);
+
+        if (makePrecise == testPercentage) {
+            System.out.println("makePrecise works properly, output is " + makePrecise);
+        } else {
+            System.out.println("Output from makePrecise is " + makePrecise);
+        }
+
+        double testPercentage2 = 16.123456789D;
+        final double makePrecise2 = LoadingBar.round(5, testPercentage2);
+
+        if (makePrecise2 == 16.12345D) {
+            System.out.println("makePrecise2 works properly, output is " + makePrecise2);
+        } else {
+            System.out.println("Output from makePrecise2 is " + makePrecise2);
+        }
 
         try (FileOutputStream outputStream = new FileOutputStream("loadingBarExample.png")) {
             outputStream.write(LoadingBar.generateImage(69.69));
@@ -45,6 +63,17 @@ public class Main {
 
         try (FileOutputStream outputStream = new FileOutputStream("loadingBarExample-color.png")) {
             outputStream.write(LoadingBar.generateImage(69.6954678795, config));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        LoadingBarConfig configNoBorder = LoadingBarConfig.defaultConfig()
+                .setBorderColor(Color.PINK)
+                .setDrawBorder(false)
+                .setPrecision(3);
+
+        try (FileOutputStream outputStream = new FileOutputStream("loadingBarExample-noBorder.png")) {
+            outputStream.write(LoadingBar.generateImage(69.6954678795, configNoBorder));
         } catch (IOException e) {
             e.printStackTrace();
         }

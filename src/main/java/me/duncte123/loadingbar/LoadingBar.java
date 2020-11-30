@@ -21,8 +21,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.*;
+
+import static me.duncte123.loadingbar.LoadingBarConfig.parsePrecision;
 
 public class LoadingBar {
 
@@ -37,28 +38,86 @@ public class LoadingBar {
     public static double getPercentage() {
         return getPercentage(17);
     }
-    
+
+    /**
+     * Returns the percentage of how much has passed from this year
+     *
+     * @param precision The decimal points to display, min is 0 and max is 17
+     *
+     * @return The percentage of how much has passed from this year
+     */
     public static double getPercentage(int precision) {
-        
-        if (precision > 17 || precision < 2) {
-            precision = 17;
-        }
-        
-        long now = new Date().getTime();
+        final int finalPrecision = parsePrecision(precision);
 
-        Calendar startCalendar = Calendar.getInstance();
-        startCalendar.set(startCalendar.get(Calendar.YEAR), Calendar.JANUARY, 1, 0, 0, 0);
-        long yearStart = startCalendar.getTime().getTime();
+        final LocalDateTime nowDateTime = LocalDateTime.now();
+        final int currentYear = nowDateTime.getYear();
+        final Instant instant = Instant.now(); //can be LocalDateTime
+        final ZoneId systemZone = ZoneId.systemDefault(); // my timezone
+        final ZoneOffset currentOffsetForMyZone = systemZone.getRules().getOffset(instant);
 
-        Calendar endCalendar = Calendar.getInstance();
-        endCalendar.set(startCalendar.get(Calendar.YEAR), Calendar.DECEMBER, 31, 0, 0, 0);
-        long yearEnd = endCalendar.getTime().getTime();
+        final long now = nowDateTime.toEpochSecond(currentOffsetForMyZone);
+
+        final LocalDateTime start = LocalDateTime.of(currentYear, Month.JANUARY, 1, 0, 0, 0);
+        final long yearStart = start.toEpochSecond(currentOffsetForMyZone);
+
+        final LocalDateTime end = LocalDateTime.of(currentYear, Month.DECEMBER, 31, 0, 0, 0);
+        final long yearEnd = end.toEpochSecond(currentOffsetForMyZone);
 
         double percentage = 100.0 * (now - yearStart) / (yearEnd - yearStart);
-        double factor = Math.pow(10.0, (double) precision);
-        long percents = (long) (percentage * factor);
-        percentage = ((double) percents) / factor;
-        return percentage;
+
+        return round(finalPrecision, percentage);
+    }
+
+    /**
+     * Generates the progress bar
+     *
+     * @param percentage
+     *         a percentage
+     * @param config
+     *         The configuration for this bar
+     *
+     * @return The generated image as {@link BufferedImage} for you to modify further
+     */
+    public static BufferedImage generateImageRaw(double percentage, LoadingBarConfig config) {
+        final int width = config.getWidth();
+        final int height = config.getHeight();
+        final double finalPercentage = round(config.getPrecision(), percentage);
+
+        final BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        final Graphics2D graphics = image.createGraphics();
+
+        final int innerX;
+        final int innerY;
+        final int maxInnerW;
+        final int maxInnerH;
+
+        if (config.isDrawBorder()) {
+            // Fill the background
+            graphics.setPaint(config.getBorderColor());
+            graphics.fillRect(0, 0, image.getWidth(), image.getHeight());
+
+            innerX = config.getBorderWidth();
+            innerY = config.getBorderWidth();
+            maxInnerW = image.getWidth() - (innerX * 2);
+            maxInnerH = image.getHeight() - (innerY * 2);
+        } else {
+            innerX = 0;
+            innerY = 0;
+            maxInnerW = image.getWidth();
+            maxInnerH = image.getHeight();
+        }
+
+        // Fill the gray area
+        graphics.setPaint(config.getInnerColor());
+        graphics.fillRect(innerX, innerY, maxInnerW, maxInnerH);
+
+        final int greenFill = (int) ((maxInnerW / 100.0) * finalPercentage);
+
+        // Fill the bar
+        graphics.setPaint(config.getFillColor());
+        graphics.fillRect(innerX, innerY, greenFill, maxInnerH);
+
+        return image;
     }
 
     /**
@@ -90,38 +149,19 @@ public class LoadingBar {
      *         when things break
      */
     public static byte[] generateImage(double percentage, LoadingBarConfig config) throws IOException {
-        int width = config.getWidth();
-        int height = config.getHeight();
-        double factor = Math.pow(10.0, (double) config.getPrecision());
-        long percents = (long) (percentage * factor);
-        percentage = ((double) percents) / factor; 
-        int type = BufferedImage.TYPE_INT_RGB;
+        final BufferedImage image = generateImageRaw(percentage, config);
 
-        BufferedImage image = new BufferedImage(width, height, type);
-        Graphics2D graphics = image.createGraphics();
-
-        // Fill the background
-        graphics.setPaint(config.getBorderColor());
-        graphics.fillRect(0, 0, image.getWidth(), image.getHeight());
-
-        int innerX = config.getBorderWidth();
-        int innerY = config.getBorderWidth();
-        int maxInnerW = image.getWidth() - (innerX * 2);
-        int maxInnerH = image.getHeight() - (innerY * 2);
-
-        // Fill the gray area
-        graphics.setPaint(config.getInnerColor());
-        graphics.fillRect(innerX, innerY, maxInnerW, maxInnerH);
-
-        int greenFill = (int) ((maxInnerW / 100.0) * percentage);
-
-        // Fill the bar
-        graphics.setPaint(config.getFillColor());
-        graphics.fillRect(innerX, innerY, greenFill, maxInnerH);
-
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         ImageIO.write(image, "png", outputStream);
 
         return outputStream.toByteArray();
+    }
+
+    // Only pubic for the tests
+    public static double round(double precision, double percentage) {
+        final double factor = Math.pow(10.0D, precision);
+        final long percents = (long) (percentage * factor);
+
+        return ((double) percents) / factor;
     }
 }
