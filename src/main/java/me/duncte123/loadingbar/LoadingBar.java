@@ -60,7 +60,7 @@ public class LoadingBar {
         final LocalDateTime start = LocalDateTime.of(currentYear, Month.JANUARY, 1, 0, 0, 0);
         final long yearStart = start.toEpochSecond(currentOffsetForMyZone);
 
-        final LocalDateTime end = LocalDateTime.of(currentYear, Month.DECEMBER, 31, 0, 0, 0);
+        final LocalDateTime end = LocalDateTime.of(currentYear, Month.DECEMBER, 31, 23, 59, 59);
         final long yearEnd = end.toEpochSecond(currentOffsetForMyZone);
 
         double percentage = 100.0 * (now - yearStart) / (yearEnd - yearStart);

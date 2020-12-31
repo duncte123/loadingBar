@@ -22,13 +22,13 @@ import me.duncte123.loadingbar.LoadingBarConfig;
 import java.awt.*;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Calendar;
+import java.time.LocalDateTime;
 
 public class Main {
 
     public static void main(String[] args) {
         double percentage = LoadingBar.getPercentage(5);
-        int year = Calendar.getInstance().getWeekYear();
+        int year = LocalDateTime.now().getYear();
 
         System.out.printf("%s is %s%% complete.\n", year, percentage);
 
