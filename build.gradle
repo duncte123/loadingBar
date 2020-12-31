@@ -100,7 +100,7 @@ bintrayUpload {
 }
 
 def getBuildNumber() {
-    return System.getenv('GITHUB_RUN_ID') ?: getGitHash()
+    return System.getenv('GITHUB_ACTION') ?: getGitHash()
 }
 
 def getGitHash() {
