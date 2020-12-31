@@ -36,7 +36,7 @@ public class LoadingBar {
      * @return The percentage of how much has passed from this year
      */
     public static double getPercentage() {
-        return getPercentage(17);
+        return getPercentage(16);
     }
 
     /**

@@ -132,8 +132,8 @@ public class LoadingBarConfig {
     }
 
     public static int parsePrecision(int precision) {
-        if (precision > 17 || precision < 0) {
-           return 17;
+        if (precision > 16 || precision < 0) {
+           return 16;
         }
 
         return precision;
