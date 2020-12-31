@@ -1,7 +1,7 @@
 [version]: https://api.bintray.com/packages/duncte123/maven/loadingbar/images/download.svg
 [download]: https://bintray.com/duncte123/maven/loadingbar/_latestVersion
 
-# loadingBar [![Build Status](https://travis-ci.org/duncte123/loadingBar.svg?branch=master)](https://travis-ci.org/duncte123/loadingBar)
+# loadingBar
 
 Util package to make loading bars
 
