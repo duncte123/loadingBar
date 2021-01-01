@@ -31,29 +31,42 @@ public class LoadingBar {
     }
 
     /**
-     * Returns the percentage of how much has passed from this year
+     * Returns the percentage of how much has passed from this year.
+     * <br>This uses the System's default ZoneId to determine the offset and has a precision of 16
      *
      * @return The percentage of how much has passed from this year
      */
     public static double getPercentage() {
         return getPercentage(16);
     }
-
+    
     /**
-     * Returns the percentage of how much has passed from this year
-     *
-     * @param precision The decimal points to display, min is 0 and max is 17
-     *
+     * Returns the percentage of how much has passed from this year.
+     * <br>This method uses the System's default ZoneId to determine the offset
+     * 
+     * @param precision The decimal points to display, min is 0 and max is 16
+     * 
      * @return The percentage of how much has passed from this year
      */
     public static double getPercentage(int precision) {
+        return getPercentage(precision, ZoneId.systemDefault());
+    }
+    
+    /**
+     * Returns the percentage of how much has passed from this year
+     *
+     * @param precision The decimal points to display, min is 0 and max is 16
+     * @param zoneId The ZoneId to use.
+     *
+     * @return The percentage of how much has passed from this year
+     */
+    public static double getPercentage(int precision, ZoneId zoneId) {
         final int finalPrecision = parsePrecision(precision);
 
         final LocalDateTime nowDateTime = LocalDateTime.now();
         final int currentYear = nowDateTime.getYear();
         final Instant instant = Instant.now(); //can be LocalDateTime
-        final ZoneId systemZone = ZoneId.systemDefault(); // my timezone
-        final ZoneOffset currentOffsetForMyZone = systemZone.getRules().getOffset(instant);
+        final ZoneOffset currentOffsetForMyZone = zoneId.getRules().getOffset(instant);
 
         final long now = nowDateTime.toEpochSecond(currentOffsetForMyZone);
 
