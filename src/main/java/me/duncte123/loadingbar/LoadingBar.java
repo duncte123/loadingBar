@@ -56,7 +56,7 @@ public class LoadingBar {
      * Returns the percentage of how much has passed from this year
      *
      * @param precision The decimal points to display, min is 0 and max is 16
-     * @param zoneId The ZoneId to use.
+     * @param zoneId The ZoneId to use. See {@link ZoneId} for more info
      *
      * @return The percentage of how much has passed from this year
      */
