@@ -21,7 +21,7 @@ plugins {
 }
 
 group = "me.duncte123"
-version = "1.3.2_${getBuildNum()}"
+version = "1.4.1_${getBuildNum()}"
 val archivesBaseName = "loadingbar"
 
 repositories {
