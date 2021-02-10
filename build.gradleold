@@ -93,10 +93,12 @@ build {
     publish.mustRunAfter sourcesJar
 }
 
-bintrayUpload {
+deploy {
     dependsOn build
 
-    onlyIf { System.getenv('BINTRAY_KEY') != null }
+    onlyIf {
+        System.getenv('JFROG_USERNAME') != null & System.getenv('JFROG_TOKEN') != null
+    }
 }
 
 def getBuildNumber() {

@@ -25,5 +25,6 @@ jobs:
         run: ./gradlew --no-daemon dependencies
       - name: Build and Release with Gradle
         env:
-          BINTRAY_KEY: ${{ secrets.BINTRAY_KEY }}
-        run: ./gradlew --no-daemon bintrayUpload
+          JFROG_USERNAME: ${{ secrets.JFROG_USERNAME }}
+          JFROG_TOKEN: ${{ secrets.JFROG_TOKEN }}
+        run: ./gradlew --no-daemon publish -x test

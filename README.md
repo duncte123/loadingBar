@@ -1,5 +1,5 @@
 [version]: https://api.bintray.com/packages/duncte123/maven/loadingbar/images/download.svg
-[download]: https://bintray.com/duncte123/maven/loadingbar/_latestVersion
+[download]: https://duncte123.jfrog.io/ui/packages/gav:%2F%2Fme.duncte123:loadingbar
 
 # loadingBar
 
@@ -12,7 +12,9 @@ The current latest version is: [ ![version][] ][download]
 
 ```GRADLE
 repositories {
-    jcenter()
+    maven {
+        url 'https://duncte123.jfrog.io/artifactory/maven'
+    }
 }
 
 dependencies {
@@ -24,9 +26,9 @@ dependencies {
 
 ```XML
 <repository>
-    <id>jcenter</id>
-    <name>jcenter-bintray</name>
-    <url>http://jcenter.bintray.com</url>
+    <id>jfrog-duncte123</id>
+    <name>jfrog-duncte123</name>
+    <url>https://duncte123.jfrog.io/artifactory/maven</url>
 </repository>
 
 <dependency>
